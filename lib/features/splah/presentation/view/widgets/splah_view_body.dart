@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sehet_nono/features/auth/presentation/view/login_view.dart';
 
 class SplahViewBody extends StatefulWidget {
   const SplahViewBody({super.key});
@@ -23,6 +24,6 @@ class _SplahViewBodyState extends State<SplahViewBody> {
   Future<void> goToNextView() async {
     await Future.delayed(const Duration(seconds: 3));
 
-    // Navigator.pushReplacementNamed(context, OnBoardingView.routeName);
+    Navigator.pushReplacementNamed(context, LoginView.routeName);
   }
 }
