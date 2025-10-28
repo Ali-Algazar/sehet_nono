@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:sehet_nono/core/constants.dart';
 import 'package:sehet_nono/core/helper/secure_storage_helper.dart';
 
 class ApiHelper {
@@ -9,7 +10,7 @@ class ApiHelper {
   ApiHelper({required this.dio, required this.storageHelper});
 
   Future<String?> _getAuthToken() async {
-    return await storageHelper.read(key: 'auth_token');
+    return await storageHelper.read(key: kAuthTokenKey);
   }
 
   Future<Options?> _createAuthOptions(bool requiresAuth) async {
