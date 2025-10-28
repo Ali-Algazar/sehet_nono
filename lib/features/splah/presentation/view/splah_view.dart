@@ -3,11 +3,10 @@ import 'widgets/splah_view_body.dart';
 
 class SplahView extends StatelessWidget {
   const SplahView({super.key});
+  static const String routeName = '/';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: const SplahViewBody(),
-    );
+    return Scaffold(body: const SplahViewBody());
   }
 }
