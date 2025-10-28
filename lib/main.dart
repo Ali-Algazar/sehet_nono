@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sehet_nono/core/helper/hive_helper.dart';
 import 'package:sehet_nono/core/helper_functions/on_generate_routes.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  HiveHelper.init();
+
   runApp(SehetNonoApp());
 }
 
