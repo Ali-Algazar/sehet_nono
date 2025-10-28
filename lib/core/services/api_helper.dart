@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
-import '../helper/shared_preferences_service.dart'; // (تم التعديل)
+import 'package:sehet_nono/core/helper/secure_storage_helper.dart';
 
 class ApiHelper {
   Dio dio;
-  final String baseUrl = 'https://api.example.com/v1/'; // (تم التعديل)
+  SecureStorageHelper storageHelper;
+  final String baseUrl = 'https://mom-hf4l.vercel.app/api/v1';
 
-  ApiHelper(this.dio);
+  ApiHelper({required this.dio, required this.storageHelper});
 
   Future<String?> _getAuthToken() async {
-    // (تم التعديل) استخدام الـ Service الذي أنشأناه
-    return await SharedPreferencesService.getData(key: 'auth_token');
+    return await storageHelper.read(key: 'auth_token');
   }
 
   Future<Options?> _createAuthOptions(bool requiresAuth) async {
@@ -19,7 +19,7 @@ class ApiHelper {
         return Options(headers: {'Authorization': 'Bearer $token'});
       }
     }
-    return null; // لا يوجد توكن أو غير مطلوب
+    return null;
   }
 
   Future<Response> get(
@@ -28,8 +28,12 @@ class ApiHelper {
     bool requiresAuth = false,
   }) async {
     Options? options = await _createAuthOptions(requiresAuth);
-    // (تم الإصلاح) طلبات GET تستخدم queryParameters
-    return await dio.get('$baseUrl$endpoint', queryParameters: data, options: options);
+
+    return await dio.get(
+      '$baseUrl$endpoint',
+      queryParameters: data,
+      options: options,
+    );
   }
 
   Future<Response> post(
