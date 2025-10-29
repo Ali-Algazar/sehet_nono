@@ -5,7 +5,7 @@ import 'package:sehet_nono/core/helper/secure_storage_helper.dart';
 class ApiHelper {
   Dio dio;
   SecureStorageHelper storageHelper;
-  final String baseUrl = 'https://mom-hf4l.vercel.app/api/v1';
+  final String baseUrl = 'https://mom-hf4l.vercel.app/api/v1/';
 
   ApiHelper({required this.dio, required this.storageHelper});
 
