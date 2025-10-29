@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:sehet_nono/core/constants.dart';
+import 'package:sehet_nono/core/helper/secure_storage_helper.dart';
 import 'package:sehet_nono/features/auth/data/repositories/auth_repository.dart';
 
 part 'auth_state.dart';
@@ -14,6 +16,8 @@ class AuthCubit extends Cubit<AuthState> {
       (failure) => emit(AuthError(failure.message)),
       (user) => emit(AuthSuccess()),
     );
+    var tokn = await SecureStorageHelper().read(key: kAuthTokenKey);
+    print(tokn);
   }
 
   Future<void> register({
