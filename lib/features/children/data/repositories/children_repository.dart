@@ -1,0 +1,14 @@
+import 'package:dartz/dartz.dart';
+import 'package:sehet_nono/core/errors/failures.dart';
+import 'package:sehet_nono/features/children/data/model/child_model.dart';
+
+abstract class ChildrenRepository {
+  Future<Either<String, void>> addChild(
+    String name,
+    String birthDate,
+    String gender,
+  );
+  Future<Either<Failure, List<ChildModel>>> getChildren();
+  Future<Either<String, void>> updateChild(ChildModel child);
+  Future<Either<String, void>> deleteChild(String childId);
+}
