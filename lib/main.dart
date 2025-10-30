@@ -7,11 +7,13 @@ import 'package:sehet_nono/core/helper/secure_storage_helper.dart';
 import 'package:sehet_nono/core/helper_functions/on_generate_routes.dart';
 import 'package:sehet_nono/core/services/get_it_service.dart';
 import 'package:sehet_nono/features/auth/data/model/user_model.dart';
+import 'package:sehet_nono/features/children/data/model/child_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HiveHelper.init();
   Hive.registerAdapter(UserModelAdapter());
+  Hive.registerAdapter(ChildModelAdapter());
   setupGetIt();
 
   runApp(SehetNonoApp());
