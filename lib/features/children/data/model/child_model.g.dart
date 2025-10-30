@@ -21,7 +21,6 @@ class ChildModelAdapter extends TypeAdapter<ChildModel> {
       name: fields[1] as String,
       gender: fields[2] as String,
       dateOfBirth: fields[3] as DateTime,
-      parentId: fields[4] as String,
     );
   }
 
@@ -36,9 +35,7 @@ class ChildModelAdapter extends TypeAdapter<ChildModel> {
       ..writeByte(2)
       ..write(obj.gender)
       ..writeByte(3)
-      ..write(obj.dateOfBirth)
-      ..writeByte(4)
-      ..write(obj.parentId);
+      ..write(obj.dateOfBirth);
   }
 
   @override
