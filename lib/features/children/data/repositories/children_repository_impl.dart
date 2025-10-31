@@ -22,23 +22,83 @@ class ChildrenRepositoryImpl implements ChildrenRepository {
   });
 
   @override
-  Future<Either<String, void>> deleteChild(String childId) {
-    // TODO: implement deleteChild
-    throw UnimplementedError();
+  Future<Either<String, void>> deleteChild(
+    String childId, {
+    isSync = false,
+  }) async {
+    try {
+      if (isSync == false) {
+        final results = await connectivity.checkConnectivity();
+        final hasConnection =
+            results.isNotEmpty && results.first != ConnectivityResult.none;
+        if (hasConnection) {
+          var response = await remoteDataSource.deleteChild(childId);
+          if (response.statusCode == 200) {
+            await localDataSource.clearChild(childId);
+            return Right(null);
+          } else {
+            return Left(
+              '${response.data['message']} with status code ${response.statusCode}',
+            );
+          }
+        } else {
+          await localDataSource.clearChild(childId);
+          HiveHelper.putData(
+            boxName: kPendingOperationsKey,
+            key: childId,
+            value: PendingOperationModel(
+              id: childId,
+              type: 'DELETE_CHILD',
+              target: 'child',
+              data: {},
+              createdAt: DateTime.now(),
+            ),
+          );
+          return right(null);
+        }
+      } else {
+        await remoteDataSource.deleteChild(childId);
+        return Right(null);
+      }
+    } on Exception catch (e) {
+      return left(e.toString());
+    }
   }
 
   @override
-  Future<Either<Failure, List<ChildModel>>> getChildren() {
-    // TODO: implement getChildren
-    throw UnimplementedError();
+  Future<Either<Failure, List<ChildModel>>> getChildren() async {
+    try {
+      final results = await connectivity.checkConnectivity();
+      final hasConnection =
+          results.isNotEmpty && results.first != ConnectivityResult.none;
+      if (hasConnection) {
+        var response = await remoteDataSource.getChildren();
+        if (response.statusCode == 200) {
+          List<ChildModel> children = (response.data as List).map((child) {
+            return ChildModel.fromJson(child);
+          }).toList();
+          await localDataSource.cacheChildrenList(children);
+
+          return right(await localDataSource.getCachedChildrenList());
+        } else {
+          return left(ServerFailure('error '));
+        }
+      } else {
+        var listChildren = await localDataSource.getCachedChildrenList();
+        return right(listChildren);
+      }
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
   }
 
   @override
-  Future<Either<String, void>> updateChild(ChildModel child) {
+  Future<Either<String, void>> updateChild(ChildModel child, {isSync = false}) {
     // TODO: implement updateChild
     throw UnimplementedError();
   }
 
+  @override
   Future<Either<String, void>> addChild(
     String name,
     String birthDate,
@@ -88,18 +148,12 @@ class ChildrenRepositoryImpl implements ChildrenRepository {
           );
           return Right(null);
         } on Exception catch (e) {
-          // TOD
           return Left('Failed to add child locally: $e');
         }
       }
     } else {
-      // عملية المزامنة
       try {
-        final remoteChild = await remoteDataSource.addChild(
-          name,
-          birthDate,
-          gender,
-        );
+        await remoteDataSource.addChild(name, birthDate, gender);
         return right(null);
       } catch (e) {
         return left('Failed to sync added child: $e');

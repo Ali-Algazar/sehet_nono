@@ -36,8 +36,9 @@ class SyncHelper {
 
   // 💾 المزامنة الفعلية
   Future<void> syncPendingOperations() async {
-    final List pendingOps =
-        await HiveHelper.getAllValues(kPendingOperationsKey) ?? [];
+    final List pendingOps = await HiveHelper.getAllValues(
+      kPendingOperationsKey,
+    );
 
     if (pendingOps.isEmpty) {
       print('ℹ️ No pending operations to sync.');
@@ -49,6 +50,9 @@ class SyncHelper {
         switch (op.type) {
           case 'ADD_CHILD':
             await _syncAddChild(op);
+            break;
+          case 'DELETE_CHILD':
+            await syncDeleteChild(op.id);
             break;
 
           // تقدر تضيف هنا أنواع عمليات تانية:
@@ -75,5 +79,9 @@ class SyncHelper {
       data['gender'],
       isSync: true,
     );
+  }
+
+  Future<void> syncDeleteChild(String childId) async {
+    await _childrenRepository.deleteChild(childId, isSync: true);
   }
 }

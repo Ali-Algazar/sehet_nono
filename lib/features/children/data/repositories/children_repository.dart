@@ -10,6 +10,6 @@ abstract class ChildrenRepository {
     isSync = false,
   });
   Future<Either<Failure, List<ChildModel>>> getChildren();
-  Future<Either<String, void>> updateChild(ChildModel child);
-  Future<Either<String, void>> deleteChild(String childId);
+  Future<Either<String, void>> updateChild(ChildModel child, {isSync = false});
+  Future<Either<String, void>> deleteChild(String childId, {isSync = false});
 }
