@@ -3,6 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:sehet_nono/core/constants.dart';
 import 'package:sehet_nono/core/helper/hive_helper.dart';
 import 'package:sehet_nono/core/models/pending_operation_model.dart';
+import 'package:sehet_nono/features/children/data/model/child_model.dart';
 import 'package:sehet_nono/features/children/data/repositories/children_repository.dart';
 
 class SyncHelper {
@@ -54,6 +55,9 @@ class SyncHelper {
           case 'DELETE_CHILD':
             await syncDeleteChild(op.id);
             break;
+          case 'UPDATE_CHILD':
+            await syncUpdateChild(ChildModel.fromJson(op.data));
+            break;
 
           // تقدر تضيف هنا أنواع عمليات تانية:
           // case 'UPDATE_CHILD':
@@ -79,6 +83,10 @@ class SyncHelper {
       data['gender'],
       isSync: true,
     );
+  }
+
+  Future<void> syncUpdateChild(ChildModel child) async {
+    await _childrenRepository.updateChild(child, isSync: true);
   }
 
   Future<void> syncDeleteChild(String childId) async {

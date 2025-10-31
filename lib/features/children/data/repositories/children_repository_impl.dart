@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:sehet_nono/core/constants.dart';
@@ -93,9 +95,48 @@ class ChildrenRepositoryImpl implements ChildrenRepository {
   }
 
   @override
-  Future<Either<String, void>> updateChild(ChildModel child, {isSync = false}) {
-    // TODO: implement updateChild
-    throw UnimplementedError();
+  Future<Either<String, void>> updateChild(
+    ChildModel child, {
+    isSync = false,
+  }) async {
+    try {
+      if (isSync == false) {
+        final results = await connectivity.checkConnectivity();
+        final hasConnection =
+            results.isNotEmpty && results.first != ConnectivityResult.none;
+        if (hasConnection) {
+          final remoteChild = await remoteDataSource.updateChild(child);
+          if (remoteChild.statusCode == 200) {
+            var child1 = await localDataSource.getCachedChild(child.id);
+            child1?.save();
+            return Right(null);
+          } else {
+            return Left(
+              '${remoteChild.data['message']} with status code ${remoteChild.statusCode}',
+            );
+          }
+        } else {
+          await localDataSource.cacheChild(child);
+          HiveHelper.putData(
+            boxName: kPendingOperationsKey,
+            key: child.id,
+            value: PendingOperationModel(
+              id: child.id,
+              type: 'UPDATE_CHILD',
+              target: 'child',
+              data: child.toJson(),
+              createdAt: DateTime.now(),
+            ),
+          );
+          return right(null);
+        }
+      } else {
+        await remoteDataSource.updateChild(child);
+        return right(null);
+      }
+    } catch (e) {
+      return left(e.toString());
+    }
   }
 
   @override

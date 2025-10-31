@@ -29,6 +29,7 @@ class ChildModel extends HiveObject {
   }
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
+      '_id': id,
       'name': name,
       'gender': gender,
       'dateOfBirth': dateOfBirth,
