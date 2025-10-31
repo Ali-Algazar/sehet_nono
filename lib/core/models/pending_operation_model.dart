@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'pending_operation_model.g.dart';
 
 @HiveType(typeId: 10)
-class PendingOperationModel {
+class PendingOperationModel extends HiveObject {
   @HiveField(0)
   final String id; // UUID محلي فريد لكل عملية
 

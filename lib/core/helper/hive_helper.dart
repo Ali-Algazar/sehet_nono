@@ -1,4 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sehet_nono/core/models/pending_operation_model.dart';
 import 'package:sehet_nono/features/auth/data/model/user_model.dart';
 import 'package:sehet_nono/features/children/data/model/child_model.dart';
 
@@ -7,6 +8,7 @@ class HiveHelper {
     await Hive.initFlutter();
     Hive.registerAdapter(UserModelAdapter());
     Hive.registerAdapter(ChildModelAdapter());
+    Hive.registerAdapter(PendingOperationModelAdapter());
   }
 
   static Future<Box> openBox(String boxName) async {

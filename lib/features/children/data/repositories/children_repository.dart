@@ -6,8 +6,9 @@ abstract class ChildrenRepository {
   Future<Either<String, void>> addChild(
     String name,
     String birthDate,
-    String gender,
-  );
+    String gender, {
+    isSync = false,
+  });
   Future<Either<Failure, List<ChildModel>>> getChildren();
   Future<Either<String, void>> updateChild(ChildModel child);
   Future<Either<String, void>> deleteChild(String childId);

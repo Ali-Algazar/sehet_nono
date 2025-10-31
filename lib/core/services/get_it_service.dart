@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sehet_nono/core/helper/secure_storage_helper.dart';
@@ -6,6 +7,10 @@ import 'package:sehet_nono/features/auth/data/datasources/auth_local_data_source
 import 'package:sehet_nono/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:sehet_nono/features/auth/data/repositories/auth_repository.dart';
 import 'package:sehet_nono/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:sehet_nono/features/children/data/datasources/children_local_data_source.dart';
+import 'package:sehet_nono/features/children/data/datasources/children_remote_data_source.dart';
+import 'package:sehet_nono/features/children/data/repositories/children_repository.dart';
+import 'package:sehet_nono/features/children/data/repositories/children_repository_impl.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -24,6 +29,19 @@ void setupGetIt() {
     AuthRepositoryImpl(
       localDataSource: getIt<AuthLocalDataSource>(),
       remoteDataSource: getIt<AuthRemoteDataSource>(),
+    ),
+  );
+  getIt.registerLazySingleton<ChildrenRemoteDataSource>(
+    () => ChildrenRemoteDataSourceImpl(apiHelper: getIt<ApiHelper>()),
+  );
+  getIt.registerLazySingleton<ChildrenLocalDataSource>(
+    () => ChildrenLocalDataSourceImpl(),
+  );
+  getIt.registerSingleton<ChildrenRepository>(
+    ChildrenRepositoryImpl(
+      Connectivity(),
+      remoteDataSource: getIt<ChildrenRemoteDataSource>(),
+      localDataSource: getIt<ChildrenLocalDataSource>(),
     ),
   );
 }
