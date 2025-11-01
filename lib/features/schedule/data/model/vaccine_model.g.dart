@@ -1,41 +1,44 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'child_model.dart';
+part of 'vaccine_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ChildModelAdapter extends TypeAdapter<ChildModel> {
+class VaccineModelAdapter extends TypeAdapter<VaccineModel> {
   @override
-  final int typeId = 1;
+  final int typeId = 2;
 
   @override
-  ChildModel read(BinaryReader reader) {
+  VaccineModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ChildModel(
+    return VaccineModel(
       id: fields[0] as String,
       name: fields[1] as String,
-      gender: fields[2] as String,
-      dateOfBirth: fields[3] as DateTime,
+      description: fields[3] as String,
+      ageInMonths: fields[4] as int,
+      doseInfo: fields[5] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, ChildModel obj) {
+  void write(BinaryWriter writer, VaccineModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.name)
-      ..writeByte(2)
-      ..write(obj.gender)
       ..writeByte(3)
-      ..write(obj.dateOfBirth);
+      ..write(obj.description)
+      ..writeByte(4)
+      ..write(obj.ageInMonths)
+      ..writeByte(5)
+      ..write(obj.doseInfo);
   }
 
   @override
@@ -44,7 +47,7 @@ class ChildModelAdapter extends TypeAdapter<ChildModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ChildModelAdapter &&
+      other is VaccineModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
