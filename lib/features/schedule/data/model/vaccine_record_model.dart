@@ -4,7 +4,7 @@ import 'package:sehet_nono/features/schedule/data/model/vaccine_model.dart';
 part 'vaccine_record_model.g.dart';
 
 @HiveType(typeId: 3)
-class VaccineRecordModel {
+class VaccineRecordModel extends HiveObject {
   @HiveField(0)
   final String id;
   @HiveField(1)
@@ -14,9 +14,9 @@ class VaccineRecordModel {
   @HiveField(3)
   final DateTime dueDate;
   @HiveField(4)
-  final String status;
+  String status;
   @HiveField(5)
-  final String? notes;
+  String? notes;
 
   VaccineRecordModel({
     required this.id,
