@@ -3,8 +3,13 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:sehet_nono/core/constants.dart';
 import 'package:sehet_nono/core/helper/hive_helper.dart';
 import 'package:sehet_nono/core/models/pending_operation_model.dart';
+import 'package:sehet_nono/core/services/get_it_service.dart';
 import 'package:sehet_nono/features/children/data/model/child_model.dart';
 import 'package:sehet_nono/features/children/data/repositories/children_repository.dart';
+import 'package:sehet_nono/features/schedule/data/datasources/schedule_local_data_source.dart';
+import 'package:sehet_nono/features/schedule/data/datasources/schedule_remote_data_source.dart';
+import 'package:sehet_nono/features/schedule/data/repositories/schedule_repository.dart';
+import 'package:sehet_nono/features/schedule/data/repositories/schedule_repository_impl.dart';
 
 class SyncHelper {
   static StreamSubscription<List<ConnectivityResult>>?
@@ -58,6 +63,9 @@ class SyncHelper {
           case 'UPDATE_CHILD':
             await syncUpdateChild(ChildModel.fromJson(op.data));
             break;
+          case 'UPDATE_VACCINE_RECORD':
+            await syncUpdateVaccineRecord(op.data);
+            break;
 
           // تقدر تضيف هنا أنواع عمليات تانية:
           // case 'UPDATE_CHILD':
@@ -71,6 +79,23 @@ class SyncHelper {
         // مش هنحذف العملية، هنجربها تاني لما النت يرجع المرة الجاية
       }
     }
+  }
+
+  Future<void> syncUpdateVaccineRecord(Map<String, dynamic> data) async {
+    var scheduleRepository = ScheduleRepositoryImpl(
+      localDataSource: getIt<ScheduleLocalDataSource>(),
+      remoteDataSource: getIt<ScheduleRemoteDataSource>(),
+    );
+
+    await scheduleRepository.updateVaccineRecord(
+      data['scheduleId'],
+      data['childId'],
+      data['index'],
+      isSynced: true,
+      dateAdministered: data['dateAdministered'],
+      notes: data['notes'],
+      status: data['status'],
+    );
   }
 
   // 📡 عملية رفع الطفل الجديد للسيرفر
