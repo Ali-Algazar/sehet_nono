@@ -11,6 +11,10 @@ import 'package:sehet_nono/features/children/data/datasources/children_local_dat
 import 'package:sehet_nono/features/children/data/datasources/children_remote_data_source.dart';
 import 'package:sehet_nono/features/children/data/repositories/children_repository.dart';
 import 'package:sehet_nono/features/children/data/repositories/children_repository_impl.dart';
+import 'package:sehet_nono/features/schedule/data/datasources/schedule_local_data_source.dart';
+import 'package:sehet_nono/features/schedule/data/datasources/schedule_remote_data_source.dart';
+import 'package:sehet_nono/features/schedule/data/repositories/schedule_repository.dart';
+import 'package:sehet_nono/features/schedule/data/repositories/schedule_repository_impl.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -42,6 +46,18 @@ void setupGetIt() {
       Connectivity(),
       remoteDataSource: getIt<ChildrenRemoteDataSource>(),
       localDataSource: getIt<ChildrenLocalDataSource>(),
+    ),
+  );
+  getIt.registerSingleton<ScheduleLocalDataSource>(
+    ScheduleLocalDataSourceImpl(),
+  );
+  getIt.registerSingleton<ScheduleRemoteDataSource>(
+    ScheduleRemoteDataSourceImpl(apiHelper: getIt<ApiHelper>()),
+  );
+  getIt.registerSingleton<ScheduleRepository>(
+    ScheduleRepositoryImpl(
+      localDataSource: getIt<ScheduleLocalDataSource>(),
+      remoteDataSource: getIt<ScheduleRemoteDataSource>(),
     ),
   );
 }
