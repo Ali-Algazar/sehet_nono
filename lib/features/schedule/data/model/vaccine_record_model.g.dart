@@ -23,13 +23,14 @@ class VaccineRecordModelAdapter extends TypeAdapter<VaccineRecordModel> {
       dueDate: fields[3] as DateTime,
       status: fields[4] as String,
       notes: fields[5] as String?,
+      dateAdministered: fields[6] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, VaccineRecordModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class VaccineRecordModelAdapter extends TypeAdapter<VaccineRecordModel> {
       ..writeByte(4)
       ..write(obj.status)
       ..writeByte(5)
-      ..write(obj.notes);
+      ..write(obj.notes)
+      ..writeByte(6)
+      ..write(obj.dateAdministered);
   }
 
   @override

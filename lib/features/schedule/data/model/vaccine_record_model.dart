@@ -17,6 +17,8 @@ class VaccineRecordModel extends HiveObject {
   String status;
   @HiveField(5)
   String? notes;
+  @HiveField(6)
+  String? dateAdministered;
 
   VaccineRecordModel({
     required this.id,
@@ -25,6 +27,7 @@ class VaccineRecordModel extends HiveObject {
     required this.dueDate,
     required this.status,
     this.notes,
+    this.dateAdministered,
   });
 
   factory VaccineRecordModel.fromJson(Map<String, dynamic> json) {
@@ -34,6 +37,7 @@ class VaccineRecordModel extends HiveObject {
       vaccine: VaccineModel.fromJson(json['vaccine']),
       dueDate: DateTime.parse(json['dueDate']),
       status: json['status'],
+      dateAdministered: json['dateAdministered'],
       notes: json['notes'],
     );
   }
@@ -46,7 +50,7 @@ class VaccineRecordModel extends HiveObject {
       'vaccine': vaccine.toJson(),
       'dueDate': dueDate.toIso8601String(),
       'status': status,
-
+      'dateAdministered': dateAdministered,
       'notes': notes,
     };
   }

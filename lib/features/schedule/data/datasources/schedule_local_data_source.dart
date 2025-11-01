@@ -1,6 +1,5 @@
 import 'package:sehet_nono/core/constants.dart';
 import 'package:sehet_nono/core/helper/hive_helper.dart';
-import 'package:sehet_nono/features/schedule/data/model/vaccine_model.dart';
 import 'package:sehet_nono/features/schedule/data/model/vaccine_record_model.dart';
 
 abstract class ScheduleLocalDataSource {
