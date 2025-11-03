@@ -4,13 +4,16 @@ import 'package:sehet_nono/features/schedule/data/model/vaccine_record_model.dar
 
 abstract class ScheduleLocalDataSource {
   Future<void> cacheScheduleRecordList(
-    List<VaccineRecordModel> ListeduleRecordList,
+    List<VaccineRecordModel> listeduleRecordList,
+    String childId,
   );
-  Future<List<VaccineRecordModel>> getCachedScheduleRecordList();
+  Future<List<VaccineRecordModel>> getCachedScheduleRecordList(String childId);
   Future<void> updataVaccineStatus(
-    String scheduleRecordId,
-    String status, {
+    String childId,
+    int index, {
+    String? status,
     String? note,
+    String? dateAdministered,
   });
 }
 
@@ -18,42 +21,46 @@ class ScheduleLocalDataSourceImpl implements ScheduleLocalDataSource {
   @override
   Future<void> cacheScheduleRecordList(
     List<VaccineRecordModel> scheduleRecordList,
+    String childId,
   ) async {
-    for (var scheduleRecord in scheduleRecordList) {
-      await HiveHelper.putData(
-        boxName: kVaccineRecordBox,
-        key: scheduleRecord.id,
-        value: scheduleRecord,
-      );
-    }
+    await HiveHelper.putData(
+      boxName: kVaccineRecordBox,
+      key: childId,
+      value: scheduleRecordList,
+    );
   }
 
   @override
-  Future<List<VaccineRecordModel>> getCachedScheduleRecordList() async {
-    List<VaccineRecordModel> scheduleRecordList = [];
-    var list = await HiveHelper.getAllValues(kVaccineRecordBox);
+  Future<List<VaccineRecordModel>> getCachedScheduleRecordList(
+    String childId,
+  ) async {
+    var list =
+        await HiveHelper.getData(boxName: kVaccineRecordBox, key: childId)
+            as List<VaccineRecordModel>;
 
-    for (var element in list) {
-      scheduleRecordList.add(element);
-    }
-
-    return scheduleRecordList;
+    return list;
   }
 
   @override
   Future<void> updataVaccineStatus(
-    String scheduleRecordId,
-    String status, {
+    String childId,
+    int index, {
+    String? status,
     String? note,
+    String? dateAdministered,
   }) async {
-    var schedule =
-        await HiveHelper.getData(
-              boxName: kVaccineRecordBox,
-              key: scheduleRecordId,
-            )
-            as VaccineRecordModel;
+    var lidtSchedule =
+        await HiveHelper.getData(boxName: kVaccineRecordBox, key: childId)
+            as List<VaccineRecordModel>;
 
-    schedule.status = status;
+    var schedule = lidtSchedule[index];
+
+    if (status != null) {
+      schedule.status = status;
+    }
+    if (dateAdministered != null) {
+      schedule.dateAdministered = dateAdministered;
+    }
 
     if (note != null) {
       schedule.notes = note;

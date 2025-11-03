@@ -7,9 +7,12 @@ abstract class ScheduleRepository {
     String childId,
   );
   Future<Either<Failure, List<VaccineRecordModel>>> updateVaccineRecord(
-    String scheduleId, {
+    String scheduleId,
+    String childId,
+    int index, {
     String? status,
     String? dateAdministered,
     String? notes,
+    bool isSynced = false,
   });
 }
