@@ -2,6 +2,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sehet_nono/core/models/pending_operation_model.dart';
 import 'package:sehet_nono/features/auth/data/model/user_model.dart';
 import 'package:sehet_nono/features/children/data/model/child_model.dart';
+import 'package:sehet_nono/features/growth/data/model/growth_model.dart';
 import 'package:sehet_nono/features/schedule/data/model/vaccine_model.dart';
 import 'package:sehet_nono/features/schedule/data/model/vaccine_record_model.dart';
 
@@ -13,6 +14,7 @@ class HiveHelper {
     Hive.registerAdapter(PendingOperationModelAdapter());
     Hive.registerAdapter(VaccineModelAdapter());
     Hive.registerAdapter(VaccineRecordModelAdapter());
+    Hive.registerAdapter(GrowthModelAdapter());
   }
 
   static Future<Box> openBox(String boxName) async {
