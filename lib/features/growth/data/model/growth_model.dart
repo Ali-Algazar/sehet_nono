@@ -41,6 +41,7 @@ class GrowthModel extends HiveObject {
   }
   Map<String, dynamic> toJson() {
     return {
+      "childId": childId,
       'height': height,
       'weight': weight,
       'headCircumference': headCircumference,
