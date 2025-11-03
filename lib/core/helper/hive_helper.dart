@@ -37,9 +37,10 @@ class HiveHelper {
   static Future<dynamic> getData({
     required String boxName,
     required String key,
+    dynamic defaultValue,
   }) async {
     final box = await openBox(boxName);
-    return box.get(key);
+    return box.get(key, defaultValue: defaultValue);
   }
 
   static Future<void> deleteData({

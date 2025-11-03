@@ -8,7 +8,6 @@ import 'package:sehet_nono/features/children/data/model/child_model.dart';
 import 'package:sehet_nono/features/children/data/repositories/children_repository.dart';
 import 'package:sehet_nono/features/schedule/data/datasources/schedule_local_data_source.dart';
 import 'package:sehet_nono/features/schedule/data/datasources/schedule_remote_data_source.dart';
-import 'package:sehet_nono/features/schedule/data/repositories/schedule_repository.dart';
 import 'package:sehet_nono/features/schedule/data/repositories/schedule_repository_impl.dart';
 
 class SyncHelper {

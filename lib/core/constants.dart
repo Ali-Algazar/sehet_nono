@@ -5,3 +5,4 @@ const String kAuthTokenKey = 'auth_token';
 const String kIsOnboardingShowKey = 'show_onboarding';
 const String kPendingOperationsKey = 'pending_operations';
 const String kVaccineRecordBox = 'vaccineRecordBox';
+const String kGrowthBox = 'growthBox';
