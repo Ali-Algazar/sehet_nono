@@ -11,6 +11,10 @@ import 'package:sehet_nono/features/children/data/datasources/children_local_dat
 import 'package:sehet_nono/features/children/data/datasources/children_remote_data_source.dart';
 import 'package:sehet_nono/features/children/data/repositories/children_repository.dart';
 import 'package:sehet_nono/features/children/data/repositories/children_repository_impl.dart';
+import 'package:sehet_nono/features/growth/data/datasources/growth_local_data_source.dart';
+import 'package:sehet_nono/features/growth/data/datasources/growth_remote_data_source.dart';
+import 'package:sehet_nono/features/growth/data/repositories/growth_repository.dart';
+import 'package:sehet_nono/features/growth/data/repositories/growth_repository_impl.dart';
 import 'package:sehet_nono/features/schedule/data/datasources/schedule_local_data_source.dart';
 import 'package:sehet_nono/features/schedule/data/datasources/schedule_remote_data_source.dart';
 import 'package:sehet_nono/features/schedule/data/repositories/schedule_repository.dart';
@@ -58,6 +62,18 @@ void setupGetIt() {
     ScheduleRepositoryImpl(
       localDataSource: getIt<ScheduleLocalDataSource>(),
       remoteDataSource: getIt<ScheduleRemoteDataSource>(),
+    ),
+  );
+
+  getIt.registerSingleton<GrowthLocalDataSource>(GrowthLocalDataSourceImpl());
+  getIt.registerSingleton<GrowthRemoteDataSource>(
+    GrowthRemoteDataSourceImpl(getIt<ApiHelper>()),
+  );
+
+  getIt.registerSingleton<GrowthRepository>(
+    GrowthRepositoryImpl(
+      getIt<GrowthLocalDataSource>(),
+      remoteDataSource: getIt<GrowthRemoteDataSource>(),
     ),
   );
 }
