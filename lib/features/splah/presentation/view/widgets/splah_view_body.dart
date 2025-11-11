@@ -4,7 +4,6 @@ import 'package:sehet_nono/core/helper/secure_storage_helper.dart';
 import 'package:sehet_nono/core/services/shared_preferences_service.dart';
 import 'package:sehet_nono/features/auth/presentation/view/login_view.dart';
 import 'package:sehet_nono/features/onboarding/presentation/view/onboarding_view.dart';
-import 'package:sehet_nono/features/onboarding/presentation/view/widgets/onboarding_view_body.dart';
 
 class SplahViewBody extends StatefulWidget {
   const SplahViewBody({super.key});
@@ -16,7 +15,6 @@ class SplahViewBody extends StatefulWidget {
 class _SplahViewBodyState extends State<SplahViewBody> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     goToNextView();
   }
