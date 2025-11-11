@@ -11,12 +11,14 @@ abstract class GrowthRepository {
   });
   Future<Either<Failure, List<GrowthModel>>> updateGrowthData(
     String childId,
-    GrowthModel growthModel, {
+    GrowthModel growthModel,
+    int recordIndex, {
     bool isSync = false,
   });
   Future<Either<Failure, List<GrowthModel>>> deleteGrowthData(
     String childId,
-    String growthId, {
+    String growthId,
+    int recordIndex, {
     bool isSync = false,
   });
 }
