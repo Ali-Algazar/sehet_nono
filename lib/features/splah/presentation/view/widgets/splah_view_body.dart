@@ -21,7 +21,9 @@ class _SplahViewBodyState extends State<SplahViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: const [Text('Splash View Body')]);
+    return Column(children:  [Text('Splash View Body',style: TextStyle(
+      decorationStyle: TextDecorationStyle.dashed
+    ),)]);
   }
 
   Future<void> goToNextView() async {
